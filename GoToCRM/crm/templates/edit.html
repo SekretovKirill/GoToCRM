@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Добавить участника{% endblock %}
+{% block content %}
+<a href="/student?id={{ student.id }}">Назад</a>
+<h1>Изменить: {{ student.name }} {{ student.surname }}</h1>
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+    <strong>Ошибка! </strong>{{ message }}
+</div>
+{% endfor %}
+<form action="/edit?id={{ student.id }}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+            <label>Имя: </label> <input class="form-control" type="text" name="name" value="{{ student.name }}"/>
+    </div>
+    <div class="form-group">
+        <label>Фамилия: </label> <input class="form-control" type="text" name="surname" value="{{ student.surname }}"/>
+    </div>
+    <div class="form-group">
+        <label>Email: </label> <input class="form-control" type="text" name="email" value="{{ student.email }}"/>
+    </div>
+    <div class="form-group">
+        <label>Комната: </label> <input class="form-control" type="text" name="room" value="{{ student.room }}"/>
+    </div>
+    <div class="form-group">
+        <label>Направление:</label>
+        <select class="form-control" name="course_id">
+            <option value="">Нет</option>
+            {% for course in courses %}
+            <option value="{{ course.id }}">{{ course.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Описание: </label> <input class="form-control" type="text" name="description" value="{{ student.description }}"/>
+    </div>
+    <br>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Сохранить">
+    </div>
+</form>
+{% endblock %}
