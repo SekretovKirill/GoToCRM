@@ -11,7 +11,7 @@ from crm.models import Student
 telebot.apihelper.proxy = {''}
 
 # TODO: указать token
-token = "858742418:AAENpIdsVPlMhb_wiZVktIWHtV-OzJ4JIN0"
+token = ""
 bot = telebot.TeleBot(token=token)
 
 data = {}
