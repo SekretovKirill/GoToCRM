@@ -5,6 +5,9 @@
 <a href="/edit?id={{ student.id }}">Изменить</a>
 <a href="/delete?id={{ student.id }}" onclick="return confirm('Точно удалить?')">Удалить</a>
 <h1>{{ student.name }} {{ student.surname }}</h1>
+{% if student.photo %}
+    <img src="{{ student.photo.url }} " height="270px" />
+{% endif %}
 <ul>
     <li><strong>Email:</strong> {{ student.email }}</li>
     <li><strong>Комната:</strong> {{ student.room }}</li>
@@ -16,4 +19,26 @@
 <p>
    <strong>Описание:</strong>{{ student.description }}
 </p>
+<strong>Комментарии:</strong>
+{% for comment in comments %}
+
+<div class="media">
+      <div class="media-body">
+        <div class="mt-0 mb-1">{{comment.user}}</div>
+          {{comment.comment}}
+      </div>
+    </div>
+{% endfor %}
+<form action="/comment?id={{ student.id }}" method="post">
+    {% csrf_token %}
+    <div class="media">
+      <div class="media-body">
+
+          <input class="form-control" type="text" name="comment" value='{{comment.comment}}'>
+      </div>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Опубликовать">
+    </div>
+</form>
 {% endblock %}

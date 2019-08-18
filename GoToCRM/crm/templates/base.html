@@ -15,10 +15,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            <form class="form-inline" action="/">
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="inputPassword2" class="sr-only">Поиск</label>
+                <input type="text" class="form-control" id="inputPassword2" placeholder="Введите имя" name="q">
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">Поиск</button>
+            </form>
             <li class="nav-item active">
                 <a class="nav-link" href="/">Участники</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/courses">Направления</a>
             </li>
             <li class="nav-item active">

@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from GoToCRM import settings
 from crm.views import *
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -35,5 +37,6 @@ urlpatterns = [
     path('register', register),
     path('login', login_page),
     path('logout', logout_page),
+    path('comment', details),
 
-]
+] + static('avatars/', document_root='avatars/')

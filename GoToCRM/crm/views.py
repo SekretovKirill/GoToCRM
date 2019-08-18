@@ -11,9 +11,13 @@ from crm.models import *
 def index(request):
     if not request.user.is_authenticated:
         return redirect('/login')
-    
-    students = Student.objects.all()
-    return render(request, 'index.html', {'students': students})
+    search = None
+    if 'q' in request.GET:
+        search = request.GET['q']
+        students = Student.objects.filter(name__contains=request.GET['q']).all()
+    else:
+        students = Student.objects.all()
+    return render(request, 'index.html', {'students': students, 'search': search})
 
 def courslist(request):
     if not request.user.is_authenticated:
@@ -28,9 +32,24 @@ def details(request):
     if request.method == 'GET':
         id = request.GET.get('id')
         student = Student.objects.get(pk=id)
-        return render(request, 'details.html', {'student': student})
+        # comments = student.comments_set.all()
+        comments = Comment.objects.filter(student=student).all()
+        return render(request, 'details.html', {'student': student, 'comments': comments})
+    if request.method == 'POST':
+        text = request.POST.get('comment', '')
+        if text == '':
+            return HttpResponse('Enter comment text')
 
+        id = request.GET.get('id')
+        student = Student.objects.get(pk=id)
 
+        comment = Comment()
+        comment.comment = text
+        comment.user = request.user
+        comment.student = student
+        comment.save()
+
+        return redirect('/student?id={}'.format(id))
 
 def coursedet(request):
     if not request.user.is_authenticated:
@@ -140,7 +159,10 @@ def edit(request):
             messages.add_message(request, messages.ERROR, 'Заполните все поля!')
             return redirect('/edit')
 
+
         student = Student.objects.get(pk=id)
+        if 'avatar' in request.FILES:
+            student.photo = request.FILES['avatar']
         student.name = name
         student.surname = surname
         student.email = email
@@ -229,4 +251,3 @@ def register(request):
             user.save()
             login(request, user)
             return redirect('/')
-

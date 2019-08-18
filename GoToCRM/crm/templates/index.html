@@ -3,7 +3,9 @@
 {% block content %}
 <a href="/add">Добавить</a>
 <h1>Участники</h1>
-
+{% if search %}
+<p>Поиск по запросу <strong>{{ search }}</strong>. <a href="/">Все участники.</a></p>
+{% endif %}
 <ul>
     {% for student in students %}
         <li><a href="/student?id={{ student.id }}">
